@@ -2,12 +2,14 @@ package com.example.assignment1
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.assignment1.databinding.ActivitySignUpPage2Binding
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class SignUpPage_2 : AppCompatActivity() {
@@ -31,23 +33,23 @@ class SignUpPage_2 : AppCompatActivity() {
             if( pass != cpass) {
                 Toast.makeText(this, "Password don't match", Toast.LENGTH_LONG).show()
             } else {
-//                val ride_to_db = FirebaseFirestore.getInstance()
+                val ride_to_db = FirebaseFirestore.getInstance()
 
                 val users = hashMapOf(
                     "email" to email,
                     "pass" to pass
                 )
 
-//                val connect_to_firebase = ride_to_db.collection("CoffeeClient").document("client_1")
+                val connect_to_firebase = ride_to_db.collection("CoffeeClient").document("client_1")
 
                 // End up coding here.
-//                connect_to_firebase.set(users)
-//                    .addOnSuccessListener {
-//                        Log.d(TAG, "User A was added successfully!")
-//                    }
-//                    .addOnFailureListener { e ->
-//                        Log.w(TAG, "Error while adding User A")
-//                    }
+                connect_to_firebase.set(users)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "User A was added successfully!")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error while adding User A")
+                    }
             }
 
 

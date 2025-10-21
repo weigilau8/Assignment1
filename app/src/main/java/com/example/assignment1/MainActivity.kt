@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         // Firebase
         // Login button
         binding.btnLogin2.setOnClickListener {
-            val got_to_login = Intent(this, LoginPage::class.java )
+            val got_to_login = Intent(this, LoginPage_2::class.java )
             startActivity(got_to_login)
         }
         // Signup2 button
