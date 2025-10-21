@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnUpdates.setOnClickListener {
-            val update_url = "https://codepen.io/simeydotme/pen/PwwYZOe"
+            val update_url = "https://github.com/weigilau8/Assignment1/tree/main"
             val intent_open_site = Intent(Intent.ACTION_VIEW, Uri.parse(update_url))
             startActivity(intent_open_site)
         }
