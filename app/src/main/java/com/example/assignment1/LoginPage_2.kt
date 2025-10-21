@@ -23,11 +23,12 @@ class LoginPage_2 : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            Toast.makeText(this, "Click", Toast.LENGTH_LONG).show()
+
             val email = binding.etLoginEmail.text.toString()
             val pass = binding.etLoginPassword.text.toString()
 
             val ride_to_db = FirebaseFirestore.getInstance()
+
 
             val users = hashMapOf(
                 "email" to email,
@@ -44,6 +45,7 @@ class LoginPage_2 : AppCompatActivity() {
                     Log.w(TAG, "Error extracting the document", error_created)
                 }
 
+            Toast.makeText(this, "$ride_to_db", Toast.LENGTH_LONG).show()
         }
 
         // Back button

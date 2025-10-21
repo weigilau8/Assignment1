@@ -33,22 +33,25 @@ class SignUpPage_2 : AppCompatActivity() {
             if( pass != cpass) {
                 Toast.makeText(this, "Password don't match", Toast.LENGTH_LONG).show()
             } else {
-                val ride_to_db = FirebaseFirestore.getInstance()
+                val firebase_connect = FirebaseFirestore.getInstance()
 
                 val users = hashMapOf(
                     "email" to email,
                     "pass" to pass
                 )
 
-                val connect_to_firebase = ride_to_db.collection("CoffeeClient").document("client_1")
+//                val connect_to_firebase = ride_to_db.collection("CoffeeClient").document("client_1")
+                val collectPath = firebase_connect.collection("CoffeeClient").document("$email")
 
                 // End up coding here.
-                connect_to_firebase.set(users)
+                collectPath.set(users)
                     .addOnSuccessListener {
-                        Log.d(TAG, "User A was added successfully!")
+                        Log.d(TAG, "User was added successfully!")
+                        Toast.makeText(this, "$email has been added", Toast.LENGTH_LONG).show()
                     }
                     .addOnFailureListener { e ->
-                        Log.w(TAG, "Error while adding User A")
+                        Log.w(TAG, "Error while adding User")
+                        Toast.makeText(this, "$email has been used", Toast.LENGTH_LONG).show()
                     }
             }
 
