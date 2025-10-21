@@ -40,18 +40,38 @@ class SignUpPage_2 : AppCompatActivity() {
                     "pass" to pass
                 )
 
-//                val connect_to_firebase = ride_to_db.collection("CoffeeClient").document("client_1")
-                val collectPath = firebase_connect.collection("CoffeeClient").document("$email")
+                // val collectionPathNdDoc = firebase_connect.collection("Students").document("Student_1")
+                val collectionPath = firebase_connect.collection("CoffeeClient")
 
-                // End up coding here.
-                collectPath.set(users)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "User was added successfully!")
-                        Toast.makeText(this, "$email has been added", Toast.LENGTH_LONG).show()
+
+                // Query to check if the email already exists as a value in any document's field
+                // using whereEqualto to check the email has been registered
+                collectionPath.whereEqualTo("email", users["email"]).get()
+                    .addOnSuccessListener { data ->
+                        if (data.isEmpty) {
+                            // If email is NEW
+                            // Use .add() function to create unique document ID
+                            // collectionPath.document("users").add(users)
+                            collectionPath.add(users)
+                                .addOnSuccessListener { documentReference ->
+                                    Log.d(TAG, "User was added successfully with unique ID: ${documentReference.id}")
+                                    Toast.makeText(this, "$email has been added", Toast.LENGTH_LONG).show()
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w(TAG, "Error while adding User to Firestore", e)
+                                    Toast.makeText(this, "Error adding user $email", Toast.LENGTH_LONG).show()
+                                }
+                        } else {
+                            // If Email is USED
+                            // it will prompt it was taken
+                            Log.w(TAG, "Registration Error: Email already in use.")
+                            Toast.makeText(this, "$email has been used, Please use different Email", Toast.LENGTH_LONG).show()
+                        }
                     }
                     .addOnFailureListener { e ->
-                        Log.w(TAG, "Error while adding User")
-                        Toast.makeText(this, "$email has been used", Toast.LENGTH_LONG).show()
+                        // Check for errors
+                        Log.e(TAG, "Error checking email uniqueness", e)
+                        Toast.makeText(this, "Database error", Toast.LENGTH_LONG).show()
                     }
             }
 
