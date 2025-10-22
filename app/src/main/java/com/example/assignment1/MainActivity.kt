@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         // Firebase
         // Login button
         binding.btnLogin2.setOnClickListener {
-            val got_to_login = Intent(this, LoginPage_2::class.java )
-            startActivity(got_to_login)
+            val got_to_login2 = Intent(this, LoginPage_2::class.java )
+            startActivity(got_to_login2)
         }
         // Signup2 button
         binding.btnSignup2.setOnClickListener {
@@ -45,8 +45,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(go_to_signup_2)
         }
 
+
+        //updates button - google updates
         binding.btnUpdates.setOnClickListener {
-            val update_url = "https://github.com/weigilau8/Assignment1/tree/main"
+            val update_url = "https://blog.google/"
             val intent_open_site = Intent(Intent.ACTION_VIEW, Uri.parse(update_url))
             startActivity(intent_open_site)
         }
