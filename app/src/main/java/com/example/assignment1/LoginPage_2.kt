@@ -29,23 +29,38 @@ class LoginPage_2 : AppCompatActivity() {
 
             val ride_to_db = FirebaseFirestore.getInstance()
 
+            // Check if both is not empty
+            if (email.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(this, "Please enter both email and password.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener // Stop execution
+            }
 
-            val users = hashMapOf(
-                "email" to email,
-                "pass" to pass
-            )
+            // Query and check email and password
+            ride_to_db.collection("CoffeeClient")
+                .whereEqualTo("email", email)
+                .whereEqualTo("pass", pass)
+                .get()
+                .addOnSuccessListener { data ->
 
-            val connect_to_firebase = ride_to_db.collection("CoffeeClient").document("client_1")
+                    // if data is empty
+                    if (data.isEmpty) {
+                        Toast.makeText(this, "Login Failed: Invalid email or password.", Toast.LENGTH_LONG).show()
+                        Log.d("Login_attempt", "Login failed for email: $email")
+                    } else {
+                        // data is not empty and correct
+                        Toast.makeText(this, "Login successful! Welcome.", Toast.LENGTH_LONG).show()
+                        Log.d("Login_attempt", "Login successful for user: ${data.documents.first().id}")
 
-            connect_to_firebase.get()
-                .addOnSuccessListener { report ->
-                    Log.d(TAG, "${report.id} => ${report.data}")
+                        // Redirect to homepage
+                        val successLogin = Intent(this, HomePage::class.java)
+                        startActivity(successLogin)
+                    }
                 }
-                .addOnFailureListener { error_created ->
-                    Log.w(TAG, "Error extracting the document", error_created)
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error connecting to the database: ${e.message}", Toast.LENGTH_LONG).show()
+                    Log.w("Login_attempt", "Error querying for user data", e)
                 }
 
-            Toast.makeText(this, "$ride_to_db", Toast.LENGTH_LONG).show()
         }
 
         // Back button
